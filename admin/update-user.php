@@ -27,6 +27,7 @@ if (isset($_POST['update'])) {
     $sql1="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$username}',role={$role} WHERE user_id = {$userid}";
     $result1 = mysqli_query($conn,$sql1) or die("Query Failed");
     if($result1){
+        //if success then redirect to users page 
         header("Location: {$host}admin/users.php");
     }
 }
@@ -43,7 +44,7 @@ if (isset($_POST['update'])) {
                 <!-- Form Start -->
                 <form action="" method="POST">
                     <div class="form-group">
-                        <input type="text" name="user_id" value="<?php echo $user['user_id'];  ?>" class="form-control" value="1" placeholder="">
+                        <input type="hidden" name="user_id" value="<?php echo $user['user_id'];  ?>" class="form-control" value="1" placeholder="">
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
