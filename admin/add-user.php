@@ -1,10 +1,13 @@
 <?php
 include "header.php";
-
+include "config.php";
+if(!$_SESSION['user_role']==1){
+header("Location:{$host}admin/post.php");
+}
 //Submit Form
 if (isset($_POST['save'])) {
     //adding db connection
-    include "config.php";
+   
 
     //getting input values
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);

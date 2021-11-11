@@ -1,3 +1,11 @@
+<?php
+include "config.php";
+session_start();
+if(!isset($_SESSION['username'])){
+    header("Location:{$host}admin/");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,7 +36,12 @@
                       <!-- LOGO-Out -->
                     <div class="col-md-offset-9  col-md-1">
                         <a href="logout.php" class="admin-logout" >logout</a>
+                       <h3 class="admin-logout"> <?php
+                        echo $_SESSION['username'];
+                         ?></h3>
+                  
                     </div>
+                        
                     <!-- /LOGO-Out -->
                 </div>
             </div>
@@ -43,12 +56,18 @@
                             <li>
                                 <a href="post.php">Post</a>
                             </li>
+                            <?php 
+                           if($_SESSION['user_role']){
+                           ?>
                             <li>
                                 <a href="category.php">Category</a>
                             </li>
                             <li>
                                 <a href="users.php">Users</a>
                             </li>
+                            <?php 
+                           }
+                           ?>
                         </ul>
                     </div>
                 </div>

@@ -1,4 +1,10 @@
-<?php include "header.php"; ?>
+<?php
+include "header.php";
+include "config.php";
+if (!$_SESSION['user_role'] == 1) {
+    header("Location:{$host}admin/post.php");
+}
+?>
 <div id="admin-content">
     <div class="container">
         <div class="row">
@@ -20,9 +26,8 @@
                     </thead>
                     <tbody>
                         <?php
-                        include "config.php";
                         $limit = 3;
-                        $page = $_GET['page']??1;
+                        $page = $_GET['page'] ?? 1;
                         $offset = ($page - 1) * $limit;
 
                         $sql = "SELECT * FROM user ORDER BY user_id DESC LIMIT {$offset},{$limit}";
@@ -53,19 +58,18 @@
 
                     $total_page = ceil($total_records / $limit);
                     echo "<ul class='pagination admin-pagination'>";
-                    if($page>1){
-                        echo "<li class=''><a style='cursor:pointer;' href='?page=".($page-1)."'>Prev</a></li>";
+                    if ($page > 1) {
+                        echo "<li class=''><a style='cursor:pointer;' href='?page=" . ($page - 1) . "'>Prev</a></li>";
                     }
                     for ($i = 1; $i <= $total_page; $i++) {
-                       if($page == $i){
-                        echo "<li class='active'><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
-                    }else{
-                           echo "<li class=''><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
-
-                       }
+                        if ($page == $i) {
+                            echo "<li class='active'><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
+                        } else {
+                            echo "<li class=''><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
+                        }
                     }
-                    if($total_page>$page){
-                        echo "<li class=''><a style='cursor:pointer;' href='?page=".($page+1)."'>Next</a></li>";
+                    if ($total_page > $page) {
+                        echo "<li class=''><a style='cursor:pointer;' href='?page=" . ($page + 1) . "'>Next</a></li>";
                     }
                     echo " </ul>";
                 }

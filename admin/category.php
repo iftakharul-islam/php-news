@@ -1,4 +1,9 @@
-<?php include "header.php"; ?>
+<?php include "header.php"; 
+require_once "config.php";
+if(!$_SESSION['user_role']==1){
+    header("Location:{$host}admin/post.php");
+}
+?>
 <div id="admin-content">
     <div class="container">
         <div class="row">
@@ -19,7 +24,6 @@
                     </thead>
                     <tbody>
                         <?php
-                        require_once "config.php";
                         $limit = 4;
                         $page = $_GET['page'] ?? 1;
                         $offset = ($page - 1) * $limit;
@@ -68,9 +72,6 @@
                         echo "<li><a href=?page=".($page+1).">Next</a></li>";
                        }
                     ?>
-                    <!-- <li class="active"><a>1</a></li>
-                    <li><a>2</a></li>
-                    <li><a>3</a></li> -->
                 </ul>
             </div>
         </div>
