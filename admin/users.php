@@ -31,8 +31,8 @@
                                     <td><?php echo $user['first_name']." ".$user['last_name'] ?></td>
                                     <td><?php echo $user['username'] ?></td>
                                     <td><?php echo $user['role'] == 1?"Admin":"Normal"; ?></td>
-                                    <td class='edit'><a href='update-user.php?edit=<?php echo $user['user_id'] ?>'><i class='fa fa-edit'></i></a></td>
-                                    <td class='delete'><a href="delete-user.php?delete=<?php echo $user['user_id'] ?>"><i class='fa fa-trash-o'></i></a></td>
+                                    <td class='edit'><a href='update-user.php?id=<?php echo $user['user_id'] ?>'><i class='fa fa-edit'></i></a></td>
+                                    <td class='delete'><a href="delete-user.php?id=<?php echo $user['user_id'] ?>"><i class='fa fa-trash-o'></i></a></td>
                                 </tr>
                         <?php
                             endforeach;
