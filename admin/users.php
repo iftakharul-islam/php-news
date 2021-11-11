@@ -53,6 +53,9 @@
 
                     $total_page = ceil($total_records / $limit);
                     echo "<ul class='pagination admin-pagination'>";
+                    if($page>1){
+                        echo "<li class=''><a style='cursor:pointer;' href='?page=".($page-1)."'>Prev</a></li>";
+                    }
                     for ($i = 1; $i <= $total_page; $i++) {
                        if($page == $i){
                         echo "<li class='active'><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
@@ -60,6 +63,9 @@
                            echo "<li class=''><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
 
                        }
+                    }
+                    if($total_page>$page){
+                        echo "<li class=''><a style='cursor:pointer;' href='?page=".($page+1)."'>Next</a></li>";
                     }
                     echo " </ul>";
                 }
