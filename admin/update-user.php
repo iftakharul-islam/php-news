@@ -2,14 +2,19 @@
 include "header.php";
 include "config.php";
 
+$temp_id = "";
+$temp_username = "";
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    // get the user from db 
+    //temporary id for next validation
+    $temp_id = $id;
 
+    // get the user from db 
     $sql = "SELECT * FROM user WHERE user_id = {$id}";
     $result = mysqli_query($conn, $sql);
-    if(mysqli_num_rows($result)>0){
+    if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
+        $temp_username = $user['username'];
     }
 }
 
@@ -21,16 +26,20 @@ if (isset($_POST['update'])) {
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $username =  mysqli_real_escape_string($conn, $_POST['username']);
     // $password =  mysqli_real_escape_string($conn, md5($_POST['password']));
-    $role =  mysqli_real_escape_string($conn,$_POST['role']);
-    // echo "{$role}  --- {$username} ----- {$fname} $lname";
+    $role =  mysqli_real_escape_string($conn, $_POST['role']);
 
-    $sql1="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$username}',role={$role} WHERE user_id = {$userid}";
-    $result1 = mysqli_query($conn,$sql1) or die("Query Failed");
-    if($result1){
-        //if success then redirect to users page 
-        header("Location: {$host}admin/users.php");
-    }
+
+        //update the users
+        $sql1 = "UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$username}',role={$role} WHERE user_id = {$userid}";
+        $result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+        if ($result1) {
+            //if success then redirect to users page 
+            header("Location: {$host}admin/users.php");
+        }else{
+            die("Query Failed");
+        }
 }
+
 
 
 ?>
@@ -56,17 +65,13 @@ if (isset($_POST['update'])) {
                     </div>
                     <div class="form-group">
                         <label>User Name</label>
-                        <input type="text" 
-                        name="username" 
-                        class="form-control" 
-                        value="<?php echo $user['username'];?>" 
-                        placeholder="" required>
+                        <input type="text" name="username" class="form-control" value="<?php echo $user['username']; ?>" placeholder="" required>
                     </div>
                     <div class="form-group">
                         <label>User Role</label>
                         <select class="form-control" name="role">
-                            <option <?php echo $user['role'] ==0?"selected":"";  ?>  value="0">Normal</option>
-                            <option  <?php echo $user['role'] ==1?"selected":"";  ?> value="1">Admin</option>
+                            <option <?php echo $user['role'] == 0 ? "selected" : "";  ?> value="0">Normal</option>
+                            <option <?php echo $user['role'] == 1 ? "selected" : "";  ?> value="1">Admin</option>
                         </select>
                     </div>
                     <input type="submit" name="update" class="btn btn-primary" value="Update" required />

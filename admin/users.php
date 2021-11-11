@@ -21,16 +21,20 @@
                     <tbody>
                         <?php
                         include "config.php";
-                        $sql = "SELECT * FROM user ORDER BY user_id DESC";
+                        $limit = 3;
+                        $page = $_GET['page']??1;
+                        $offset = ($page - 1) * $limit;
+
+                        $sql = "SELECT * FROM user ORDER BY user_id DESC LIMIT {$offset},{$limit}";
                         $result = mysqli_query($conn, $sql) or die("Query Failed");
                         if (mysqli_num_rows($result) > 0) :
                             foreach ($result as $user) :
                         ?>
                                 <tr>
                                     <td class='id'><?php echo $user['user_id'] ?></td>
-                                    <td><?php echo $user['first_name']." ".$user['last_name'] ?></td>
+                                    <td><?php echo $user['first_name'] . " " . $user['last_name'] ?></td>
                                     <td><?php echo $user['username'] ?></td>
-                                    <td><?php echo $user['role'] == 1?"Admin":"Normal"; ?></td>
+                                    <td><?php echo $user['role'] == 1 ? "Admin" : "Normal"; ?></td>
                                     <td class='edit'><a href='update-user.php?id=<?php echo $user['user_id'] ?>'><i class='fa fa-edit'></i></a></td>
                                     <td class='delete'><a href="delete-user.php?id=<?php echo $user['user_id'] ?>"><i class='fa fa-trash-o'></i></a></td>
                                 </tr>
@@ -40,10 +44,26 @@
                         ?>
                     </tbody>
                 </table>
-                <ul class='pagination admin-pagination'>
-                    <li class="active"><a>1</a></li>
-                    <li><a>2</a></li>
-                    <li><a>3</a></li>
+
+                <?php
+                $sql1 = "SELECT * FROM user ";
+                $result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+                if (mysqli_num_rows($result1) > 0) {
+                    $total_records = mysqli_num_rows($result1);
+
+                    $total_page = ceil($total_records / $limit);
+                    echo "<ul class='pagination admin-pagination'>";
+                    for ($i = 1; $i <= $total_page; $i++) {
+                       if($page == $i){
+                        echo "<li class='active'><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
+                    }else{
+                           echo "<li class=''><a style='cursor:pointer;' href='?page={$i}'>{$i}</a></li>";
+
+                       }
+                    }
+                    echo " </ul>";
+                }
+                ?>
                 </ul>
             </div>
         </div>
